@@ -27,6 +27,8 @@
   "homepage": "https://github.com/jcrugzz/empirenode-demo",
   "dependencies": {
     "axon": "~2.0.1",
+    "diagnostics": "0.0.4",
+    "forwarded-for": "~0.1.1",
     "godot": "1.0.x",
     "http-proxy": "~1.5.3",
     "minimist": "~1.1.0"
