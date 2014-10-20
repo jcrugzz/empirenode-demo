@@ -9,3 +9,5 @@ var server = g.createServer({
     }
   ]
 });
+
+server.listen(6000);

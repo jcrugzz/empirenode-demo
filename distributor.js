@@ -4,6 +4,7 @@ var debug = require('diagnostics')('distributor');
 
 function Distributor (opts) {
   if (!(this instanceof Distributor)) return new Distributor(opts);
+  opts = opts || {};
   this.port = opts.port || 5000;
 
   // Client IPs to distribute messages to and get a reply
@@ -41,8 +42,8 @@ Distributor.prototype._onFinish = function (o, fn, res) {
   // a change in axon
   if (!res) debug('we should do a retry on the specific socket');
   return ++o.count == this.sockets.length
-    ? fn(true);
-    : function () {}
+    ? fn(true)
+    : function () {};
 };
 
 Distributor.prototype.add = function (host, fn) {
