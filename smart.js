@@ -24,7 +24,7 @@ function Smart(options) {
   this.axon = axon.socket('rep')
     .on('error', function (err) { debug('Connection with server closed') })
     .on('message', this._onMessage.bind(this))
-    .bind(4000);
+    .bind(this.port);
 
   this._proxy = new HttpProxy({ secure: false, prependPath: false })
     .on('error', this._handleProxyError.bind(this))

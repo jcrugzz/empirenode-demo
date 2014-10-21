@@ -26,7 +26,11 @@ Distributor.prototype._onMessage = function (status, msg, fn) {
       this.remove(msg, fn);
       break;
     case 'healthy':
-
+      this.add(msg, fn);
+      break;
+    default:
+      debug('We shouldnt get here')
+      fn(false);
   }
 };
 
