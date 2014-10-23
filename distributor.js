@@ -36,9 +36,10 @@ Distributor.prototype._onMessage = function (status, msg, fn) {
 
 Distributor.prototype.send = function (action, host, fn) {
   // counting object to pass as a reference;
+  var count = { count: 0 };
   this.sockets.forEach(function (socket) {
     socket.send(action, host, this._onFinish.bind(this, count, fn));
-  });
+  }, this);
 };
 
 Distributor.prototype._onFinish = function (o, fn, res) {

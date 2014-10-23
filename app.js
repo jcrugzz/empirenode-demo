@@ -28,12 +28,12 @@ godot.on('connect', function () {
 
 http.createServer(function(req, res) {
   if (req.url === '/') {
-    res.writeHead(200);
     res.setHeader('content-type', 'application/json');
+    res.writeHead(200);
     res.end(JSON.stringify({ status: 'ok' }));
     return;
   }
-}).listen(3000);
+}).listen(+port);
 
 var up = setInterval(function () {
   godot.produce({
@@ -45,4 +45,4 @@ var up = setInterval(function () {
       server: 'http://127.0.0.1:' + port
     }
   })
-}, 5000);
+}, 1000);

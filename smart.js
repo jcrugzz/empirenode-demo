@@ -42,6 +42,10 @@ Smart.prototype.proxy = function (req, res) {
   var len = dests.length;
   var target = dests[this.count++ % len];
 
+  if (!target) {
+    debug('We have zero targets to proxy to');
+    return this._handleProxyError(new Error('All endpoints down'), req, res);
+  }
   debug('[proxy request] from %s to %s  | %s %s', address.ip, target, req.method, req.url);
 
   this._proxy.web(req, res, {
@@ -61,11 +65,8 @@ Smart.prototype.add = function (host, fn) {
 // Remove a server from the set
 Smart.prototype.remove = function(host, fn) {
   var idx = this.destinations.indexOf(host);
-  if (!~idx) {
-    debug('%s not found in destinations %j', host, this.destinations);
-    return setImmediate(fn.bind(null, false));
-  }
-  this.destinations.splice(idx, 1);
+  if (!~idx) debug('%s not found in destinations %j', host, this.destinations);
+  else this.destinations.splice(idx, 1);
   return setImmediate(fn.bind(null, true));
 };
 
@@ -86,7 +87,7 @@ Smart.prototype._onMessage = function (action, msg, fn) {
 };
 
 Smart.prototype._handleProxyError = function (err, req, res) {
-  var address = forwarded(req, req,headers),
+  var address = forwarded(req, req.headers),
       json;
 
   debug('[proxy error] %s | %s %s %s', address.ip, req.method, req.url, err.message);
