@@ -9,7 +9,10 @@ var gPort = argv.g || argv.godot || 6000;
 
 var started = false;
 
-var godot = g.createClient({ type: 'tcp' });
+var godot = g.createClient({ type: 'tcp', reconnect: {} });
+godot.on('error', function (err) {
+  console.error(err);
+});
 godot.connect(gPort);
 godot.on('connect', function () {
   if (started) return;
